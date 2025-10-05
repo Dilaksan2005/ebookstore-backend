@@ -208,8 +208,8 @@ if (Array.isArray(guestCart) && guestCart.length > 0) {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      secure: true,
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -326,8 +326,8 @@ export const logout = (req, res) => {
   try {
     res.clearCookie('token', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      secure: true,
+      sameSite: 'none',
     });
 
     res.json({ success: true, message: 'Logged out successfully' });
@@ -424,8 +424,8 @@ export const changePassword = async (req, res) => {
     res.cookie('token', 'loggedout', {
       httpOnly: true,
       expires: new Date(Date.now() + 10 * 1000),
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      secure: true,
+      sameSite:  'none' ,
     });
 
     res.status(200).json({ success: true, message: 'Password changed successfully! Please log in with your new password.' });
@@ -454,8 +454,8 @@ export const deleteAccount = async (req, res) => {
     // Clear the authentication cookie upon successful deletion
     res.clearCookie('token', {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      secure: true,
+      sameSite: 'none',
     });
 
     res.status(200).json({ success: true, message: 'Account deleted successfully.' });

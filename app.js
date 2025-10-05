@@ -38,17 +38,19 @@ app.use(cookieParser());
 const allowedOrigins = (process.env.FRONTEND_URL || "").split(",");
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow REST tools like Postman (no origin)
-    if (!origin || allowedOrigins.includes(origin)) {
+ origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("CORS blocked"));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // app.use(cors({
